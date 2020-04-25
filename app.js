@@ -17,8 +17,30 @@ class UI {
 
 	//submitBudgetForm
 	submitBudgetForm(){
-		const budgetInput = this.budgetInput.value;
-		console.log(budgetInput);
+		const value = this.budgetInput.value;
+		if(value === '' || value < 0){
+			this.budgetFeedback.classList.add("showItem");
+			this.budgetFeedback.innerHTML = `<p>no empty, negative value !!!!</p>`;
+		const self = this;
+		setTimeout(() => {
+			self.budgetFeedback.classList.remove("showItem");
+		},3000)
+		} else {
+			this.budgetAmount.textContent = value;
+			this.budgetInput.value = "";
+			this.shwoBalance();
+		}
+
+	}
+
+	shwoBalance(){
+		const expenses = this.totalExpenses();
+
+	}
+
+
+	totalExpenses(){
+		
 	}
 }
 
