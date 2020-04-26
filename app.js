@@ -140,6 +140,19 @@ class UI {
 
 	deleteExpense(element){
 
+		let id = parseInt(element.dataset.id);
+		let parent = element.parentElement.parentElement.parentElement;
+		//remove from dom
+		this.expenseList.removeChild(parent);
+
+		//remove from list
+
+		let tempList = this.itemList.filter(item => item.id !== id );
+		this.itemList = tempList;
+
+		this.shwoBalance();
+
+
 	}
 
 }
