@@ -38,7 +38,7 @@ body{
 .expense-submit {
 	background: transparent;
 	border: 0.1rem solid var(--mainRed);
-	color: var(--mainWhite);
+	color: var(--mainRed);
 }
 .expense-submit:hover {
 	background: var(--mainRed);
