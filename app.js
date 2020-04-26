@@ -22,9 +22,8 @@ class UI {
 		if(value === '' || value < 0){
 			this.budgetFeedback.classList.add("showItem");
 			this.budgetFeedback.innerHTML = `<p>no empty, negative value !!!!</p>`;
-		const self = this;
 		setTimeout(() => {
-			self.budgetFeedback.classList.remove("showItem");
+			this.budgetFeedback.classList.remove("showItem");
 		},3000)
 		} else {
 			this.budgetAmount.textContent = value;
@@ -55,24 +54,11 @@ class UI {
 	}
 
 
-	totalExpenses(){
-		let total = 0;
-		if(this.itemList.length > 0){
-
-			total = this.itemList.reduce((acc,curr) => acc += curr.cost,0)
-			console.log(this.itemList)
-		}
-
-		console.log(total)
-		this.expenseAmount.textContent = total;
-		return total;
-	}
 
 
 	submitExpenseForm(){
 		const expenseValue = this.expenseInput.value;
 		const amountValue = this.amountInput.value;
-	
 		if(expenseValue === '' || amountValue === '' || amountValue < 0){
 			this.expenseFeedback.classList.add("showItem");
 			this.expenseFeedback.innerHTML = `<p>not empty, negtive </p>`;
@@ -97,6 +83,18 @@ class UI {
 
 	}
 
+	totalExpenses(){
+		let total = 0;
+		if(this.itemList.length > 0){
+
+			total = this.itemList.reduce((acc,curr) => acc += curr.cost,0)
+	
+		}
+
+	
+		this.expenseAmount.textContent = total;
+		return total;
+	}
 
 	addExpense(expense){
 		const div = document.createElement('div');
@@ -115,9 +113,32 @@ class UI {
 					<i class="fas fa-trash"></i>
 				</a>
 				</div>
-				</div>
+			</div>
 		`;
 	this.expenseList.appendChild(div);
+
+	}
+
+	editExpense(element){
+		let id = parseInt(element.dataset.id);
+		let parent = element.parentElement.parentElement.parentElement;
+		this.expenseList.removeChild(parent);
+		
+
+		let expense = this.itemList.filter(item => item.id === id)
+		this.expenseInput.value = expense[0].title;
+		this.amountInput.value = expense[0].cost; 
+
+
+
+		let tempList = this.itemList.filter(item => item.id !== id)
+		this.itemList = tempList;
+		
+
+		this.shwoBalance();
+	}
+
+	deleteExpense(element){
 
 	}
 
@@ -131,7 +152,7 @@ class UI {
 function eventListeners(){
 	const budgetForm = document.getElementById("budget-form");
 	const expenseForm = document.getElementById("expense-form");
-	const expenseList = document.querySelector("expense-list");
+	const expenseList = document.getElementById("expense-list");
 
 	//new instace of UI
 	const ui = new UI();
@@ -145,9 +166,14 @@ function eventListeners(){
 		e.preventDefault();
 		ui.submitExpenseForm();
 	})
-	expenseList.addEventListener('click', () => {
-		
+	expenseList.addEventListener('click', (e) => {
+		if(e.target.parentElement.classList.contains('edit-icon')) {
+			ui.editExpense(e.target.parentElement);
+		} else if (e.target.parentElement.classList.contains('delete-icon')){
+			ui.deleteExpense(e.target.parentElement);
+		}
 	})
 }
+
 
 document.addEventListener('DOMContentLoaded',() => eventListeners());
