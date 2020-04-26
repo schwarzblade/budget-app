@@ -56,7 +56,15 @@ class UI {
 
 
 	totalExpenses(){
-		let total = 400;
+		let total = 0;
+		if(this.itemList.length > 0){
+
+			total = this.itemList.reduce((acc,curr) => acc += curr.cost,0)
+			console.log(this.itemList)
+		}
+
+		console.log(total)
+		this.expenseAmount.textContent = total;
 		return total;
 	}
 
@@ -84,6 +92,7 @@ class UI {
 			this.itemList.push(expense);
 			this.addExpense(expense);
 			//show balance
+			this.shwoBalance();
 		}
 
 	}
@@ -107,7 +116,7 @@ class UI {
 				</a>
 				</div>
 				</div>
-`;
+		`;
 	this.expenseList.appendChild(div);
 
 	}
